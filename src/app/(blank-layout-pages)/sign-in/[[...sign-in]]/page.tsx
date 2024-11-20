@@ -16,7 +16,7 @@ const SignInPage = () => {
   // Vars
   const mode = getServerMode()
 
-  return <Login mode={mode} />
+  return <Login mode={mode} type={'sign-in'} />
 }
 
 export default SignInPage
