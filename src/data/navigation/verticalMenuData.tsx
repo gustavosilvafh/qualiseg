@@ -6,11 +6,6 @@ const verticalMenuData = (): VerticalMenuDataType[] => [
     label: 'Início',
     href: '/dashboard/home',
     icon: 'ri-home-smile-line'
-  },
-  {
-    label: 'About',
-    href: '/dashboard/about',
-    icon: 'ri-information-line'
   }
 ]
 

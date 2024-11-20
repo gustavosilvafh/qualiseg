@@ -9,8 +9,8 @@ import '@assets/iconify-icons/generated-icons.css'
 import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata = {
-  title: 'Qualiseg',
-  description: 'Qualiseg'
+  title: 'Qualyseg',
+  description: 'Qualyseg'
 }
 
 // Type Imports

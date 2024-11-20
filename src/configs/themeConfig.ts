@@ -50,7 +50,7 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Qualiseg',
+  templateName: 'Qualyseg',
   homePageUrl: '/dashboard/home',
   settingsCookieName: 'materio-mui-next-demo',
   mode: 'system', // 'system', 'light', 'dark'
