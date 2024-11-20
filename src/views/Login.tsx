@@ -1,35 +1,16 @@
 'use client'
 
-// React Imports
-import { useState } from 'react'
-
-// Next Imports
-import { useRouter } from 'next/navigation'
-
-// MUI Imports
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Divider from '@mui/material/Divider'
-
-// Third-party Imports
 import classnames from 'classnames'
+
+import { SignIn } from '@clerk/nextjs'
 
 import type { Mode } from '@core/types'
 
 import Illustrations from '@components/Illustrations'
 
-// Config Imports
-import themeConfig from '@configs/themeConfig'
-
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import { useSettings } from '@core/hooks/useSettings'
-import { SignIn } from '@clerk/nextjs'
 
 const LoginV2 = ({ mode }: { mode: Mode }) => {
   const darkImg = '/images/pages/auth-v2-mask-dark.png'
@@ -39,8 +20,6 @@ const LoginV2 = ({ mode }: { mode: Mode }) => {
   const borderedDarkIllustration = '/images/illustrations/auth/v2-login-dark-border.png'
   const borderedLightIllustration = '/images/illustrations/auth/v2-login-light-border.png'
 
-  // Hooks
-  const router = useRouter()
   const { settings } = useSettings()
   const authBackground = useImageVariant(mode, lightImg, darkImg)
 
@@ -51,7 +30,6 @@ const LoginV2 = ({ mode }: { mode: Mode }) => {
     borderedLightIllustration,
     borderedDarkIllustration
   )
-
 
   return (
     <div className='flex bs-full justify-center'>

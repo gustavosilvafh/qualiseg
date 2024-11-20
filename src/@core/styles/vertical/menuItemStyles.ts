@@ -1,5 +1,4 @@
 // MUI Imports
-import { lighten } from '@mui/material/styles'
 import type { Theme } from '@mui/material/styles'
 
 // Type Imports
@@ -47,7 +46,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
             }
           : {
               color: 'var(--mui-palette-primary-contrastText)',
-              background:theme.palette.primary.main,
+              background: theme.palette.primary.main,
               [`& .${menuClasses.icon}`]: {
                 color: 'inherit'
               }
@@ -64,7 +63,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
       ...((!isPopoutWhenCollapsed || popoutExpanded || (popoutCollapsed && level === 0)) && {
         transition: `padding-inline-start ${transitionDuration}ms ease-in-out`,
         paddingInlineStart: theme.spacing(collapsedNotHovered ? ((collapsedWidth as number) - 25) / 8 : 5.5),
-        paddingInlineEnd: theme.spacing(collapsedNotHovered ? ((collapsedWidth as number) - 25) / 8 - 1.25 : 3.5),
+        paddingInlineEnd: theme.spacing(collapsedNotHovered ? ((collapsedWidth as number) - 25) / 8 - 1.25 : 3.5)
       }),
       ...(!active && {
         '&:hover, &:focus-visible': {

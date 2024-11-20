@@ -1,9 +1,6 @@
 // Third-party Imports
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
-// Type Imports
-import type { ChildrenType } from '@core/types'
-
 // Style Imports
 import '@/app/globals.css'
 
@@ -13,9 +10,11 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata = {
   title: 'Qualiseg',
-  description:
-    'Qualiseg'
+  description: 'Qualiseg'
 }
+
+// Type Imports
+import type { ChildrenType } from '@core/types'
 
 const RootLayout = ({ children }: ChildrenType) => {
   // Vars
