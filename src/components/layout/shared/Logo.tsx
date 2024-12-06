@@ -36,9 +36,7 @@ const LogoText = styled.span<LogoTextProps>`
     `margin-inline-start ${transitionDuration}ms ease-in-out, opacity ${transitionDuration}ms ease-in-out`};
 
   ${({ isHovered, isCollapsed, isBreakpointReached }) =>
-    !isBreakpointReached && isCollapsed && !isHovered
-      ? 'opacity: 0; margin-inline-start: 0;'
-      : 'opacity: 1; margin-inline-start: 10px;'}
+    !isBreakpointReached && isCollapsed && !isHovered ? 'opacity: 0; margin-inline-start: 0;' : 'opacity: 1; '}
 `
 
 const Logo = ({ color }: { color?: CSSProperties['color'] }) => {

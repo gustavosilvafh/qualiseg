@@ -2,7 +2,7 @@
   inline-size: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
-  white-space: nowrap;
+  white-space: break-spaces;
 
   [align='right'] > * {
     text-align: end;
