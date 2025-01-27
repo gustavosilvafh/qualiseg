@@ -1,6 +1,8 @@
 'use client'
 
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
+import type { Dispatch, SetStateAction} from 'react';
+import { useCallback, useEffect, useState } from 'react'
+
 import axios from 'axios'
 
 // MUI Imports
@@ -13,10 +15,11 @@ import StepConnector from '@mui/material/StepConnector'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
+import { Box, CircularProgress } from '@mui/material'
+
 import StepperWrapper from '@core/styles/stepper'
 import StepperCustomDot from '@components/stepper-dot'
 import EditStepClient from './steps/EditStepClient'
-import { Box, CircularProgress } from '@mui/material'
 import StepReview from './steps/StepReview'
 import BudgetValues from './steps/BudgetValues'
 
@@ -127,6 +130,7 @@ const EditBudget = ({ params }: { params: { id: string } }) => {
   const fetchBudgetInfos = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/invoice/${params.id}`)
+
       setBudgetDetails(data)
     } catch (e) {
       console.error(e)

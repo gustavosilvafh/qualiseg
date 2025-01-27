@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import DirectionalIcon from '@components/DirectionalIcon'
 import PreviewCard from './PreviewCard'
 import PreviewActions from './PreviewActions'
-import { BudgetInfoProps, Parameters } from '../page'
+import type { BudgetInfoProps, Parameters } from '../page'
 
 type Props = {
   activeStep: number

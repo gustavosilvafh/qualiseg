@@ -1,7 +1,9 @@
 // React Imports
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useEffect, useState } from 'react'
 
 // MUI Imports
+
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -20,15 +22,18 @@ import * as yup from 'yup'
 
 import Box from '@mui/material/Box'
 
+import { cnpj } from 'cpf-cnpj-validator'
+
+import SaveIcon from '@mui/icons-material/Save'
+
+import { toast } from 'react-toastify'
+
 import DirectionalIcon from '@components/DirectionalIcon'
 
 import { riskDegree } from '@/app/dashboard/budget/create/steps/riskDegree'
 import type { BudgetInfoProps } from '@/app/dashboard/budget/create/page'
-import { useRouter } from 'next/navigation'
-import { Parameters } from '../page'
-import { cnpj } from 'cpf-cnpj-validator'
-import SaveIcon from '@mui/icons-material/Save'
-import { toast } from 'react-toastify'
+import type { Parameters } from '../page'
+
 type Props = {
   activeStep: number
   handleNext: () => void
@@ -41,8 +46,6 @@ type Props = {
 
 const EditStepClient = ({ activeStep, handleNext, handlePrev, steps, budgetDetails, setBudgetDetails }: Props) => {
   const [activities, setActivities] = useState<any[]>([])
-
-  const router = useRouter()
 
   const validationSchema = yup.object({
     employeeAmount: yup.number().required().min(1, 'Mínimo de um funcionário'),
@@ -61,6 +64,7 @@ const EditStepClient = ({ activeStep, handleNext, handlePrev, steps, budgetDetai
         if (!cnpj.isValid(value as string)) {
           return ctx.createError({ message: 'CNPJ Inválido' })
         }
+
         return true
       }),
     companyName: yup.string().required('Preencher CNPJ e buscar informações da empresa')

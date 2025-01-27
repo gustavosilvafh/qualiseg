@@ -1,5 +1,8 @@
 // React Imports
 import { useEffect, useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+
 import { cnpj } from 'cpf-cnpj-validator'
 
 // MUI Imports
@@ -21,12 +24,12 @@ import * as yup from 'yup'
 
 import Box from '@mui/material/Box'
 
+import { toast } from 'react-toastify'
+
 import DirectionalIcon from '@components/DirectionalIcon'
 
 import { riskDegree } from '@/app/dashboard/budget/create/steps/riskDegree'
 import type { BudgetInfoProps } from '@/app/dashboard/budget/create/page'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
 
 type Props = {
   activeStep: number
@@ -35,7 +38,7 @@ type Props = {
   steps: { title: string; subtitle: string }[]
 }
 
-const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
+const StepClient = ({ activeStep, handlePrev, steps }: Props) => {
   const [activities, setActivities] = useState<any[]>([])
 
   const router = useRouter()
@@ -57,6 +60,7 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
         if (!cnpj.isValid(value as string)) {
           return ctx.createError({ message: 'CNPJ Inválido' })
         }
+
         return true
       }),
     companyName: yup.string().required('Preencher CNPJ e buscar informações da empresa'),
@@ -82,6 +86,7 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
     onSubmit: async values => {
       try {
         const { data } = await axios.post('/api/invoice', values)
+
         toast('Orçamento criado, indo para edição', { type: 'success' })
         router.push(`/dashboard/budget/edit/${data.id}`)
       } catch (e) {

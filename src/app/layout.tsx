@@ -15,9 +15,10 @@ export const metadata = {
 }
 
 // Type Imports
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 import type { ChildrenType } from '@core/types'
 import ReactQueryProvider from '@core/providers/QueryClientProvider'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const RootLayout = ({ children }: ChildrenType) => {
   // Vars

@@ -1,12 +1,19 @@
-import { Box, Button, Divider, Grid, IconButton, Tooltip } from '@mui/material'
-import { BudgetInfoProps, Parameters } from '../page'
-import DirectionalIcon from '@/components/DirectionalIcon'
 import { useMemo, useState } from 'react'
-import { MaterialReactTable, MRT_ColumnDef, MRT_Row, useMaterialReactTable } from 'material-react-table'
-import { formatValueBR } from '@/utils/string'
-import EditIcon from '@mui/icons-material/Edit'
+
+import { Box, Button, Divider, Grid, IconButton, Tooltip } from '@mui/material'
+
+import type { MRT_ColumnDef, MRT_Row } from 'material-react-table'
+import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
+
 import DeleteIcon from '@mui/icons-material/Delete'
+
+import type { BudgetInfoProps, Parameters } from '../page'
+import DirectionalIcon from '@/components/DirectionalIcon'
+
+import { formatValueBR } from '@/utils/string'
+
 import { examsParams, visitas } from './services.constants'
+
 type Props = {
   activeStep: number
   handleNext: () => void
@@ -16,7 +23,7 @@ type Props = {
   parameters: Parameters[]
 }
 
-const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails, parameters }: Props) => {
+const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters }: Props) => {
   const [visitsData, setVisitsData] = useState<any[]>([])
   const [examsData, setExamsData] = useState<any[]>([])
   const ltcatWithRisk = parameters.find(el => el.slug === 'ltcat-com-risco')
@@ -27,6 +34,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
   const pcmsoWithoutRisk = parameters.find(el => el.slug === 'pcmso-sem-risco')!
   const esocial = parameters.find(el => el.slug === 'esocial')!
   const escritorio = parameters.find(el => el.slug === 'escritorio')!
+
   const calcLTCAT = () => {
     //budgetDetails.functionsAmount Quantidade de funcoes
 
@@ -34,29 +42,37 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
       if (budgetDetails.functionsAmount <= 5) {
         return budgetDetails.functionsAmount * ltcatWithoutRisk!.upToFive + ltcatWithoutRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount <= 10) {
         return budgetDetails.functionsAmount * ltcatWithoutRisk!.upToTen + ltcatWithoutRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount <= 20) {
         return budgetDetails.functionsAmount * ltcatWithoutRisk!.upToTwenty + ltcatWithoutRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount > 20) {
         return budgetDetails.functionsAmount * ltcatWithoutRisk!.aboveTwenty + ltcatWithoutRisk!.baseValue
       }
+
       return 0
     } else {
       if (budgetDetails.functionsAmount <= 5) {
         return budgetDetails.functionsAmount * ltcatWithRisk!.upToFive + ltcatWithRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount <= 10) {
         return budgetDetails.functionsAmount * ltcatWithRisk!.upToTen + ltcatWithRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount <= 20) {
         return budgetDetails.functionsAmount * ltcatWithRisk!.upToTwenty + ltcatWithRisk!.baseValue
       }
+
       if (budgetDetails.functionsAmount > 20) {
         return budgetDetails.functionsAmount * ltcatWithRisk!.aboveTwenty + ltcatWithRisk!.baseValue
       }
+
       return 0
     }
   }
@@ -110,6 +126,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
     ) {
       return 'DISPENSA'
     }
+
     return 'FAZER'
   }
 
@@ -201,6 +218,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
     } else if (budgetDetails.employeeAmount >= 21) {
       return budgetDetails.employeeAmount * esocial.aboveTwenty
     }
+
     return '' // Retorna vazio se nenhuma condição for atendida
   }
 
@@ -383,6 +401,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
   const openDeleteConfirmModal = (row: MRT_Row<any>) => {
     setVisitsData(visitsData.filter(el => el.service !== row.original.service))
   }
+
   const openDeleteConfirmModalExam = (row: MRT_Row<any>) => {
     setExamsData(examsData.filter(el => el.service !== row.original.service))
   }
@@ -392,7 +411,9 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
       if (service === 'desloc') {
         return budgetDetails.kmAmount * 0.8 * Number(values.quantity) * 100
       }
+
       const svc = visitas.find(el => el.value === service)!
+
       return Number(values.quantity) * svc.unitValue + budgetDetails.kmAmount * 0.8 * Number(values.quantity) * 100
     }
 
@@ -403,6 +424,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
   const handleCreateExamService = ({ values }: any) => {
     const calcValue = (service: string) => {
       const svc = examsParams.find(el => el.value === service)!
+
       return Number(values.quantity) * svc.cost
     }
 
@@ -428,7 +450,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
         Adicionar visita
       </Button>
     ),
-    renderRowActions: ({ row, table }) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title='Delete'>
           <IconButton color='error' onClick={() => openDeleteConfirmModal(row)}>
@@ -458,7 +480,7 @@ const BudgetValues = ({ activeStep, handleNext, handlePrev, steps, budgetDetails
         Adicionar exame
       </Button>
     ),
-    renderRowActions: ({ row, table }) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title='Delete'>
           <IconButton color='error' onClick={() => openDeleteConfirmModalExam(row)}>

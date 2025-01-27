@@ -2,7 +2,6 @@
 import { useState } from 'react'
 
 // Next Imports
-import Link from 'next/link'
 
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -19,10 +18,6 @@ const PreviewActions = ({ onButtonClick }: { onButtonClick: () => void }) => {
   const handleClickOpen = () => setOpen(true)
 
   const handleDialogClose = () => setOpen(false)
-
-  const handleClose = (value: string) => {
-    setOpen(false)
-  }
 
   return (
     <>

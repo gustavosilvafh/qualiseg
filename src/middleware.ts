@@ -5,6 +5,7 @@ const isProtectedRoute = createRouteMatcher(['/dashboard(.*)', '/api(.*)'])
 export default clerkMiddleware(async (auth, req) => {
   if (
     isProtectedRoute(req)
+
     // && process.env.NODE_ENV !== 'development'
   )
     await auth.protect()

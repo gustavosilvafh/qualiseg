@@ -2,22 +2,19 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { useRouter } from 'next/navigation'
+
 import type { MRT_ColumnDef } from 'material-react-table'
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
-import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import { Box, IconButton, Tooltip, type PaperProps } from '@mui/material'
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR'
 import axios from 'axios'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { format } from 'date-fns'
-import { useRouter } from 'next/navigation'
 
 const BudgetPage = () => {
   const [budgets, setBudgets] = useState<any[]>([])
-
-  const formatDatabaseValue = (value: number) =>
-    (value / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
   const router = useRouter()
 
@@ -63,7 +60,7 @@ const BudgetPage = () => {
     editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
     localization: MRT_Localization_PT_BR,
-    renderRowActions: ({ row, table }) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '1rem' }}>
         <Tooltip title='Visualizar'>
           <IconButton onClick={() => router.push(`/dashboard/budget/edit/${row.original.id}`)}>

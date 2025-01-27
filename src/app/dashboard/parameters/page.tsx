@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { MRT_ColumnDef } from 'material-react-table'
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table'
-import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import type { PaperProps } from '@mui/material'
 import { MRT_Localization_PT_BR } from 'material-react-table/locales/pt-BR'
