@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
+import axios from 'axios'
 
 // Type Imports
 
@@ -13,13 +14,17 @@ import Logo from '@components/layout/shared/Logo'
 // Style Imports
 import tableStyles from '@core/styles/table.module.css'
 import './print.css'
+import { BudgetInfoProps, Parameters } from '../page'
+import { useCallback, useEffect, useState } from 'react'
 
 type Props = {
   invoiceData?: any
   id: string
+  budgetDetails: BudgetInfoProps
+  parameters: Parameters[]
 }
 
-const PreviewCard = ({ invoiceData, id }: Props) => {
+const PreviewCard = ({ invoiceData, id, budgetDetails, parameters }: Props) => {
   return (
     <Card className='previewCard'>
       <CardContent className='sm:!p-12'>

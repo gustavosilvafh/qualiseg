@@ -17,10 +17,20 @@ const verticalMenuData = (): VerticalMenuDataType[] => [
       }
     ]
   },
+
   {
-    label: 'Novo orçamento',
-    href: '/dashboard/budget/create',
-    icon: 'ri-file-paper-2-fill'
+    label: 'Orçamentos',
+    icon: 'ri-file-paper-2-fill',
+    children: [
+      {
+        label: 'Orçamentos',
+        href: '/dashboard/budget'
+      },
+      {
+        label: 'Novo orçamento',
+        href: '/dashboard/budget/create'
+      }
+    ]
   }
 ]
 

@@ -1,6 +1,5 @@
 // React Imports
-import { useEffect, useState } from 'react'
-import { cnpj } from 'cpf-cnpj-validator'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 // MUI Imports
 import Grid from '@mui/material/Grid'
@@ -26,16 +25,21 @@ import DirectionalIcon from '@components/DirectionalIcon'
 import { riskDegree } from '@/app/dashboard/budget/create/steps/riskDegree'
 import type { BudgetInfoProps } from '@/app/dashboard/budget/create/page'
 import { useRouter } from 'next/navigation'
+import { Parameters } from '../page'
+import { cnpj } from 'cpf-cnpj-validator'
+import SaveIcon from '@mui/icons-material/Save'
 import { toast } from 'react-toastify'
-
 type Props = {
   activeStep: number
   handleNext: () => void
   handlePrev: () => void
   steps: { title: string; subtitle: string }[]
+  budgetDetails: BudgetInfoProps
+  parameters: Parameters[]
+  setBudgetDetails: Dispatch<SetStateAction<BudgetInfoProps | undefined>>
 }
 
-const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
+const EditStepClient = ({ activeStep, handleNext, handlePrev, steps, budgetDetails, setBudgetDetails }: Props) => {
   const [activities, setActivities] = useState<any[]>([])
 
   const router = useRouter()
@@ -59,32 +63,36 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
         }
         return true
       }),
-    companyName: yup.string().required('Preencher CNPJ e buscar informações da empresa'),
-    businessSize: yup.string().required()
+    companyName: yup.string().required('Preencher CNPJ e buscar informações da empresa')
   })
 
   const formik = useFormik<BudgetInfoProps>({
     initialValues: {
-      employeeAmount: 0,
-      functionsAmount: 0,
-      kmAmount: 0,
-      riskFQB: false,
-      cnae: '',
-      ergonomicRisk: false,
-      riskDegree: 0,
-      responsibleName: '',
-      document: '',
-      companyName: '',
-      businessSize: 'MEI',
-      responsiblePhone: ''
+      employeeAmount: budgetDetails.employeeAmount,
+      functionsAmount: budgetDetails.functionsAmount,
+      kmAmount: budgetDetails.kmAmount,
+      riskFQB: budgetDetails.riskFQB,
+      cnae: budgetDetails.cnae,
+      ergonomicRisk: budgetDetails.ergonomicRisk,
+      riskDegree: budgetDetails.riskDegree,
+      responsiblePhone: budgetDetails.responsiblePhone ?? '',
+      responsibleName: budgetDetails.responsibleName,
+      document: budgetDetails.document,
+      companyName: budgetDetails.companyName,
+      businessSize: budgetDetails.businessSize
     },
     validationSchema: validationSchema,
     onSubmit: async values => {
       try {
-        const { data } = await axios.post('/api/invoice', values)
-        toast('Orçamento criado, indo para edição', { type: 'success' })
-        router.push(`/dashboard/budget/edit/${data.id}`)
+        setBudgetDetails(values)
+        await axios.post('/api/invoice', { ...values, id: budgetDetails.id })
+        toast('Parâmetros salvos!', {
+          type: 'success'
+        })
       } catch (e) {
+        toast('Erro ao salvar!', {
+          type: 'error'
+        })
         console.error(e)
       }
     }
@@ -95,6 +103,7 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
   useEffect(() => {
     if (isLoaded && user) {
       formik.setValues(prevState => ({ ...prevState, responsibleName: user.fullName ?? '' }))
+      fetchCnpj()
     }
   }, [user, isLoaded])
 
@@ -168,8 +177,8 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
         <InputLabel>Razão social</InputLabel>
         <TextField
           fullWidth
-          id={'companyName'}
-          name={'companyName'}
+          id={'client.name'}
+          name={'client.name'}
           disabled
           value={formik.values.companyName}
           onChange={formik.handleChange}
@@ -270,7 +279,15 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
       <Grid item xs={12} md={6} mt={5}>
         <FormControl fullWidth>
           <InputLabel id='select-maintenance'>Oferece risco ergonômico</InputLabel>
-          <Select labelId='select-maintenance' defaultValue={'nao'} variant={'outlined' as 'filled'}>
+          <Select
+            labelId='select-maintenance'
+            defaultValue={'sim'}
+            variant={'outlined' as 'filled'}
+            value={formik.values.ergonomicRisk ? 'sim' : 'nao'}
+            onChange={e => {
+              formik.setFieldValue('ergonomicRisk', e.target.value === 'sim')
+            }}
+          >
             <MenuItem value={'sim'}>Sim</MenuItem>
             <MenuItem value={'nao'}>Não</MenuItem>
           </Select>
@@ -331,6 +348,16 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
             onClick={async () => {
               await formik.submitForm()
             }}
+            endIcon={<SaveIcon />}
+          >
+            Salvar
+          </Button>
+          <Button
+            variant='contained'
+            color={activeStep === steps.length - 1 ? 'success' : ('primary' as any)}
+            onClick={async () => {
+              handleNext()
+            }}
             endIcon={
               activeStep === steps.length - 1 ? (
                 <i className='ri-check-line' />
@@ -347,4 +374,4 @@ const StepClient = ({ activeStep, handleNext, handlePrev, steps }: Props) => {
   )
 }
 
-export default StepClient
+export default EditStepClient

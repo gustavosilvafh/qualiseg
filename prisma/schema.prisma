@@ -31,3 +31,20 @@ model InvoiceParameter {
   baseValue   Int?
   perEmployee Int?
 }
+
+model Invoice {
+  id               String  @id @default(uuid())
+  responsibleName  String?
+  responsiblePhone String?
+  document         String?
+  companyName      String?
+  businessSize     String?
+  employeeAmount   Int     @default(0)
+  functionsAmount  Int     @default(0)
+  kmAmount         Int     @default(0)
+  riskDegree       Int?
+  ergonomicRisk    Boolean @default(false)
+  riskFQB          Boolean @default(false)
+  cnae             String? 
+  createdAt        DateTime           @default(now())
+}

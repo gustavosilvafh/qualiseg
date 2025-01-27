@@ -1,29 +1,27 @@
 'use client'
 
 // MUI Imports
-import type { Dispatch, SetStateAction } from 'react'
 
 import Grid from '@mui/material/Grid'
 
 // Type Imports
 import Button from '@mui/material/Button'
 
-import type { FormikProps } from 'formik'
-
-import PreviewActions from './PreviewActions'
-import PreviewCard from './PreviewCard'
 import DirectionalIcon from '@components/DirectionalIcon'
-import type { BudgetInfoProps } from '@/app/dashboard/budget/create/page'
+import PreviewCard from './PreviewCard'
+import PreviewActions from './PreviewActions'
+import { BudgetInfoProps, Parameters } from '../page'
 
 type Props = {
   activeStep: number
   handleNext: () => void
   handlePrev: () => void
   steps: { title: string; subtitle: string }[]
-  formik: FormikProps<BudgetInfoProps>
+  budgetDetails: BudgetInfoProps
+  parameters: Parameters[]
 }
 
-const StepReview = ({ activeStep, handleNext, handlePrev, steps, formik }: Props) => {
+const StepReview = ({ activeStep, handleNext, handlePrev, steps, budgetDetails, parameters }: Props) => {
   // Handle Print Button Click
   const handleButtonClick = () => {
     window.print()
@@ -47,13 +45,19 @@ const StepReview = ({ activeStep, handleNext, handlePrev, steps, formik }: Props
     avatarColor: 'primary',
     invoiceStatus: 'Paid',
     balance: '$724',
-    dueDate: `23 ${currentMonth} ${now.getFullYear()}`
+    dueDate: `23 ${currentMonth} ${now.getFullYear()}`,
+    budgetDetails
   }
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={9}>
-        <PreviewCard invoiceData={invoiceData} id={invoiceData.id} />
+        <PreviewCard
+          invoiceData={invoiceData}
+          id={invoiceData.id}
+          budgetDetails={budgetDetails}
+          parameters={parameters}
+        />
       </Grid>
       <Grid item xs={12} md={3}>
         <PreviewActions onButtonClick={handleButtonClick} />

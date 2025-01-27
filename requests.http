@@ -1,0 +1,6 @@
+POST {{baseurl}}/api/invoice
+Content-Type: application/json
+
+{}
+
+###

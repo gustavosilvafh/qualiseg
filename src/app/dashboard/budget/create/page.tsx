@@ -1,8 +1,6 @@
 'use client'
 
-// React Imports
-import type { Dispatch, SetStateAction } from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 // MUI Imports
 import Card from '@mui/material/Card'
@@ -14,71 +12,40 @@ import StepConnector from '@mui/material/StepConnector'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
-import { useUser } from '@clerk/nextjs'
-
-import type { FormikProps } from 'formik'
-import { FormikState, useFormik } from 'formik'
-
-import * as yup from 'yup'
-
 import StepperWrapper from '@core/styles/stepper'
 import StepperCustomDot from '@components/stepper-dot'
 import StepClient from '@/app/dashboard/budget/create/steps/StepClient'
-import StepReview from '@/app/dashboard/budget/create/steps/StepReview'
 
 // Vars
 const steps = [
   {
     title: 'Informações Básicas',
     subtitle: 'Responsável/Empresa'
-  },
-
-  {
-    title: 'Resumo',
-    subtitle: 'Revisão do orçamento'
   }
-
-  // {
-  //   title: 'Property Features',
-  //   subtitle: 'Bedrooms/Floor No'
-  // },
-  // {
-  //   title: 'Property Area',
-  //   subtitle: 'Covered Area'
-  // },
-  // {
-  //   title: 'Price Details',
-  //   subtitle: 'Expected Price'
-  // }
 ]
 
 export interface BudgetInfoProps {
   employeeAmount: number
+  id?: string
   functionsAmount: number
-  kmDistance: number
+  kmAmount: number
   riskFQB: boolean
   cnae: string
   ergonomicRisk: boolean
   riskDegree: number
-  responsible: string
-  contactInfo: string
-  client: {
-    document: string
-    name: string
-  }
+  responsibleName: string
+  document: string
+  companyName: string
+  businessSize: string
+  responsiblePhone: string
 }
 
-const getStepContent = (
-  step: number,
-  handleNext: () => void,
-  handlePrev: () => void,
-  formik: FormikProps<BudgetInfoProps>
-) => {
-  const tagByStep = [StepClient, StepReview]
+const getStepContent = (step: number, handleNext: () => void, handlePrev: () => void) => {
+  const tagByStep = [StepClient]
 
   const Tag = tagByStep[step]
 
-  return <Tag activeStep={step} handleNext={handleNext} handlePrev={handlePrev} steps={steps} formik={formik} />
+  return <Tag activeStep={step} handleNext={handleNext} handlePrev={handlePrev} steps={steps} />
 }
 
 // Styled Components
@@ -88,55 +55,7 @@ const ConnectorHeight = styled(StepConnector)(() => ({
   }
 }))
 
-const validationSchema = yup.object({
-  employeeAmount: yup.number().required().min(1, 'Mínimo de um funcionário'),
-  functionsAmount: yup.number().required().min(1, 'Mínimo de uma função'),
-  kmDistance: yup.number().required().min(1, 'Mínimo de um funcionário'),
-  riskFQB: yup.boolean().required(),
-  cnae: yup.string().required('CNAE é obrigatório'),
-  ergonomicRisk: yup.boolean().required(),
-  riskDegree: yup.boolean().required('Risco obrigatório baseado no CNAE'),
-  contactInfo: yup.string().length(14, 'Número inválido'),
-  responsible: yup.string().min(3, 'Nome inválido'),
-  client: yup
-    .object({
-      document: yup.string().length(18),
-      name: yup.string().required()
-    })
-    .required()
-})
-
 const CreateBudget = () => {
-  const formik = useFormik<BudgetInfoProps>({
-    initialValues: {
-      employeeAmount: 0,
-      functionsAmount: 0,
-      kmDistance: 0,
-      riskFQB: false,
-      cnae: '',
-      ergonomicRisk: false,
-      riskDegree: 0,
-      contactInfo: '',
-      responsible: '',
-      client: {
-        document: '',
-        name: ''
-      }
-    },
-    validationSchema: validationSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2))
-    }
-  })
-
-  const { user, isLoaded } = useUser()
-
-  useEffect(() => {
-    if (isLoaded && user) {
-      formik.setValues(prevState => ({ ...prevState, responsible: user.fullName ?? '' }))
-    }
-  }, [user, isLoaded])
-
   // States
   const [activeStep, setActiveStep] = useState<number>(0)
 
@@ -181,8 +100,7 @@ const CreateBudget = () => {
           </Stepper>
         </StepperWrapper>
       </CardContent>
-
-      <CardContent className='flex-1 !pbs-5'>{getStepContent(activeStep, handleNext, handlePrev, formik)}</CardContent>
+      <CardContent className='flex-1 !pbs-5'>{getStepContent(activeStep, handleNext, handlePrev)}</CardContent>
     </Card>
   )
 }
