@@ -496,7 +496,7 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
     <Grid container spacing={5}>
       <Grid item xs={12}>
         <h3 style={{ marginBottom: '15px', textAlign: 'center' }}>
-          Segurança no trabalho - Total{' '}
+          Segurança do Trabalho - Total{' '}
           {formatValueBR(data.reduce((acc, act) => (Number(act.value) || 0) + acc, 0) / 100)}
         </h3>
         <MaterialReactTable table={workSecurityTable} />
@@ -504,7 +504,7 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
       </Grid>
       <Grid item xs={12}>
         <h3 style={{ marginBottom: '15px', textAlign: 'center' }}>
-          Visistas - {formatValueBR(visitsData.reduce((acc, act) => (Number(act.value) || 0) + acc, 0) / 100)}
+          Visitas - {formatValueBR(visitsData.reduce((acc, act) => (Number(act.value) || 0) + acc, 0) / 100)}
         </h3>
 
         <MaterialReactTable table={visitsTable} />
