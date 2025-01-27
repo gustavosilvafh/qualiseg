@@ -5,17 +5,17 @@ export const visitas = [
     unitValue: 10000
   },
   {
-    label: 'Visitas técnicas de até 02 hora',
+    label: 'Visitas técnicas de até 02 horas',
     value: 'upToTwo',
     unitValue: 22000
   },
   {
-    label: 'Visitas técnicas de até 04 hora',
+    label: 'Visitas técnicas de até 04 horas',
     value: 'upToFour',
     unitValue: 40000
   },
   {
-    label: 'Visitas técnicas de até 08 hora',
+    label: 'Visitas técnicas de até 08 horas',
     value: 'upToEight',
     unitValue: 78000
   },
