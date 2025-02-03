@@ -1,0 +1,31 @@
+- Cadastro de usuário com permissionamento de desconto
+- Tornar parametrizavel os valores dos exames
+- Criar tabela para adição de medições quantitivas
+- Encerrar a edição do orçamento
+  - 90 dias impedir a edição
+  - Gerou contrato
+- Colocar data e hora na geração do contrato e orçamento
+- Gerar orçamento
+- Gerar contrato (modelo no whatsapp)
+
+- Plano de trabalho
+  - status
+  - comentário
+
+- Cadastro de empresa
+  - CNPJ
+  - Razação social
+  - Nome fantasia
+  - Endereço
+  - Responsável legal
+  - Informações pessoais
+  - contato técnico/financeiro
+  - telefone
+  - email
+  - TST responsável (usuário da plataforma)
+  - pode ser mais de um
+  - Responsável comercial (interno)
+  - escritório contábil
+
+- Tradução pra portugues
+- Pegar contato do último orçamento ou do cadastro

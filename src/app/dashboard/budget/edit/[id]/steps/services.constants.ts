@@ -188,3 +188,54 @@ export const examsParams = [
     cost: 1600
   }
 ]
+
+export const trainingRefs = [
+  {
+    label:
+      'Treinamentos básicos - NR 06 (EPI) E NR 05(CIPA) (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-06',
+    baseValue: 20000,
+    perFunc: 2500
+  },
+  {
+    label:
+      '•Treinamento de NR 35 - Trabalho em Altura (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-35',
+    baseValue: 40000,
+    perFunc: 5000
+  },
+  {
+    label:
+      '•Treinamento de NR 33 - Espaço Confinado (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-33',
+    baseValue: 40000,
+    perFunc: 5000
+  },
+  {
+    label:
+      '•Treinamento de NR 12 - Segurança na Op. De Máquinas e Equipamentos (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-12',
+    baseValue: 28000,
+    perFunc: 2500
+  },
+  {
+    label:
+      '•Treinamento de Nr 18 - Segurança do Trabalho na Construção Civil (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-18',
+    baseValue: 20000,
+    perFunc: 2500
+  },
+  {
+    label:
+      '•Treinamento de NR 10 - Segurança em Instalações e Serviços em Eletricidade (carga horária e conteúdo programático conforme Norma Regulamentadora atualizada)',
+    value: 'nr-10',
+    baseValue: 190000,
+    perFunc: 15000
+  },
+  {
+    label: '•Integrações de Segurança (admissional e periódico) para acesso em terceiros',
+    value: 'integracoes',
+    baseValue: 220000,
+    perFunc: 2000
+  }
+]

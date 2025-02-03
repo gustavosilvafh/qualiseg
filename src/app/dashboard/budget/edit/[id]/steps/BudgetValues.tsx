@@ -12,7 +12,7 @@ import DirectionalIcon from '@/components/DirectionalIcon'
 
 import { formatValueBR } from '@/utils/string'
 
-import { examsParams, visitas } from './services.constants'
+import { examsParams, trainingRefs, visitas } from './services.constants'
 
 type Props = {
   activeStep: number
@@ -25,6 +25,7 @@ type Props = {
 
 const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters }: Props) => {
   const [visitsData, setVisitsData] = useState<any[]>([])
+  const [trainingsData, setTrainingsData] = useState<any[]>([])
   const [examsData, setExamsData] = useState<any[]>([])
   const ltcatWithRisk = parameters.find(el => el.slug === 'ltcat-com-risco')
   const ltcatWithoutRisk = parameters.find(el => el.slug === 'ltcat-sem-risco')
@@ -352,6 +353,55 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
     [visitsData]
   )
 
+  const trainingsColumns = useMemo<MRT_ColumnDef<any>[]>(
+    () => [
+      {
+        accessorKey: 'service',
+        header: 'Serviço',
+        enableEditing: true,
+        editSelectOptions: trainingRefs.filter(tR => !trainingsData.find(tD => tD.service === tR.value)),
+        muiEditTextFieldProps: {
+          select: true
+        },
+        Cell(props) {
+          return trainingRefs.find(tR => tR.value === props.cell.getValue())?.label
+        },
+        size: 80
+      },
+      {
+        accessorKey: 'quantity',
+        header: 'Quantidade',
+        enableEditing: false,
+        muiEditTextFieldProps: {
+          type: 'number',
+          required: true
+        },
+        size: 80
+      },
+      {
+        accessorKey: 'employeeAmount',
+        header: 'Quantidade de funcionários',
+        enableEditing: false,
+        muiEditTextFieldProps: {
+          type: 'number',
+          required: true
+        },
+        size: 80
+      },
+
+      {
+        accessorKey: 'value',
+        header: 'Valor venda',
+        Cell(props) {
+          return formatValueBR((props.cell.getValue() as number) / 100)
+        },
+        enableEditing: false,
+        size: 80
+      }
+    ],
+    [trainingsData]
+  )
+
   const data = useMemo(
     () => [
       {
@@ -402,6 +452,10 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
     setVisitsData(visitsData.filter(el => el.service !== row.original.service))
   }
 
+  const openDeleteConfirmModalTraining = (row: MRT_Row<any>) => {
+    setTrainingsData(trainingsData.filter(el => el.service !== row.original.service))
+  }
+
   const openDeleteConfirmModalExam = (row: MRT_Row<any>) => {
     setExamsData(examsData.filter(el => el.service !== row.original.service))
   }
@@ -419,6 +473,22 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
 
     setVisitsData([...visitsData, { ...values, value: calcValue(values.service) }])
     visitsTable.setCreatingRow(null) //exit creating mode
+  }
+
+  const handleCreateTraining = ({ values }: any) => {
+    const onTrainingList = trainingRefs.find(el => el.value === values.service)
+
+    setTrainingsData([
+      ...trainingsData,
+      {
+        ...values,
+        employeeAmount: budgetDetails.employeeAmount,
+        quantity: 1,
+        value: budgetDetails.employeeAmount * onTrainingList!.perFunc + onTrainingList!.baseValue
+      }
+    ])
+
+    trainingsTable.setCreatingRow(null) //exit creating mode
   }
 
   const handleCreateExamService = ({ values }: any) => {
@@ -460,6 +530,36 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
       </Box>
     ),
     data: visitsData
+  })
+
+  const trainingsTable = useMaterialReactTable({
+    columns: trainingsColumns,
+    createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
+    editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
+    enableEditing: true,
+    onCreatingRowSave: handleCreateTraining,
+
+    getRowId: row => row.id,
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Button
+        variant='contained'
+        onClick={() => {
+          table.setCreatingRow(true)
+        }}
+      >
+        Adicionar treinamento
+      </Button>
+    ),
+    renderRowActions: ({ row }) => (
+      <Box sx={{ display: 'flex', gap: '1rem' }}>
+        <Tooltip title='Delete'>
+          <IconButton color='error' onClick={() => openDeleteConfirmModalTraining(row)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    ),
+    data: trainingsData
   })
 
   const examTable = useMaterialReactTable({
@@ -517,6 +617,16 @@ const BudgetValues = ({ activeStep, handlePrev, steps, budgetDetails, parameters
         </h3>
 
         <MaterialReactTable table={examTable} />
+
+        <Divider />
+      </Grid>
+
+      <Grid item xs={12}>
+        <h3 style={{ marginBottom: '15px', textAlign: 'center' }}>
+          Treinamentos - {formatValueBR(trainingsData.reduce((acc, act) => (Number(act.value) || 0) + acc, 0) / 100)}
+        </h3>
+
+        <MaterialReactTable table={trainingsTable} />
 
         <Divider />
       </Grid>

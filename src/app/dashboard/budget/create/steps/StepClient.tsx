@@ -110,15 +110,28 @@ const StepClient = ({ activeStep, handlePrev, steps }: Props) => {
 
     await formik.setFieldValue('companyName', companyName)
 
-    setActivities([
+    const activities = [
       { id: response.data.cnae_fiscal, text: response.data.cnae_fiscal_descricao },
       ...response.data.cnaes_secundarios.map((el: any) => ({ id: el.codigo, text: el.descricao }))
-    ])
-    await formik.setFieldValue('cnae', String(response.data.cnae_fiscal))
-    await formik.setFieldValue(
-      'riskDegree',
-      riskDegree.find(riskD => riskD.code === String(response.data.cnae_fiscal).slice(0, 5))?.risk
-    )
+    ]
+
+    setActivities(activities)
+
+    const activitiesCnaesWithRiskDegree = activities
+      .map(activity => {
+        return {
+          ...activity,
+          formatted: String(activity.id).slice(0, 5),
+          riskDegree:
+            riskDegree.find(riskD => riskD.code === String(activity.id).slice(0, 5))?.risk ||
+            riskDegree.find(riskD => riskD.code.includes(String(activity.id).slice(0, 4)))?.risk
+        }
+      })
+      .sort((a, b) => (b.riskDegree ?? 0) - (a.riskDegree ?? 0))
+
+    await formik.setFieldValue('cnae', String(activitiesCnaesWithRiskDegree[0].id))
+
+    await formik.setFieldValue('riskDegree', activitiesCnaesWithRiskDegree[0]?.riskDegree ?? 0)
   }
 
   return (
